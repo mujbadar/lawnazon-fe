@@ -1,5 +1,10 @@
 import React, { Component } from 'react';
+import { BrowserRouter as Router, Route} from 'react-router-dom'
+
+import Header from './components/header.js'
 import Project from './components/Projects.js'
+import NewAccount from './components/newAccount.js'
+import Profile from './components/profile.js'
 import './App.css';
 
 class App extends Component {
@@ -35,15 +40,23 @@ class App extends Component {
   }
   render() {
     return (
+      <Router>
       <div className="App">
-        <div className="container">
-          <h1>Hello world</h1>
-          <Project
-            projects={this.state.projects}
-            user={this.state.userId}
+          <Header />
+          <Route path='/signup' render={() => (
+            <NewAccount/>
+            )}
+          />
+          <Route path="/projects" render={() => (
+                <Project/>
+            )}
+          />
+          <Route path='/profile' render={() => (
+            <Profile/>
+            )}
           />
         </div>
-      </div>
+      </Router>
     );
   }
 }
