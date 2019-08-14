@@ -1,4 +1,10 @@
 import React, { Component } from 'react'
+// import Form from 'react-bootstrap/Form'
+// import Button from 'react-bootstrap/Button'
+// import Col from 'react-bootstrap/Col'
+// import Row from 'react-bootstrap/Row'
+
+const baseURL = 'http://localhost:3000'
 
 class NewBid extends Component {
   state = {
@@ -7,13 +13,14 @@ class NewBid extends Component {
     location: '',
     delivery: '',
     warranty: '',
+    projectId: this.props.location.state.projectId
   }
   handleChange = (event) => {
     this.setState({ [event.target.id]: event.target.value})
   }
   handleSubmit = (event) => {
     event.preventDefault()
-    fetch('/accounts/' + this.props.account_id + '/projects' + this.props.project_id + 'bids', {
+    fetch(baseURL + '/projects' + this.state.projectId + 'bids', {
       method: 'POST',
       body: JSON.stringify(
         {

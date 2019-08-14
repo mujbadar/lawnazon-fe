@@ -1,6 +1,9 @@
 import React, { Component } from 'react'
 import NewProject from './newProject.js'
+import { Link } from 'react-router-dom'
 
+import Card from 'react-bootstrap/Card'
+import CardGroup from 'react-bootstrap/CardGroup'
 
 class Projects extends Component {
   state = {
@@ -17,6 +20,8 @@ class Projects extends Component {
     .then(resJson => {
       this.setState({
         projects: resJson
+      }, () => {
+        console.log(resJson);
       })
     })
     .catch(err => console.error({'Error fetching projects': err}))
@@ -26,34 +31,50 @@ class Projects extends Component {
   }
   render() {
     return(
-      <>
-      <h1>Projects</h1>
-      <div>
-        <table>
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Project Name</th>
-              <th>Project Description</th>
-            </tr>
-          </thead>
-          <tbody>
-            {
-              this.state.projects.map((projects, index) => {
-                return (
-                  <tr key={index}>
-                    <th>{index}</th>
-                    <th>{projects.name}</th>
-                    <th>{projects.description}</th>
-                  </tr>
-                )
-              })
-            }
-          </tbody>
-        </table>
-        <NewProject/>
+      <div className='container-fluid'>
+        <div className='jumbotron bg-white'>
+          <NewProject/>
         </div>
-      </>
+        <h1> All projects </h1>
+        <hr/>
+          <CardGroup>
+            {
+              this.state.projects.map((project, index) => {
+                return (
+                  <div key={index}>
+                    <Card style={{ width: '18rem'}}>
+                      <Card.Body>
+                        <Card.Title>{project.name}</Card.Title>
+                        <Card.Subtitle>Type: {project.type}</Card.Subtitle>
+                        <Card.Text>{project.description}</Card.Text>
+                        <Card.Link>
+                          <Link to={{
+                            pathname: '/project/show',
+                            state: {
+                              name: project.name,
+                              type: project.type,
+                              id: project.id,
+                              description: project.description,
+                              bids: project.bids
+                              }
+                          }}>See Project</Link>
+                        </Card.Link>
+                        <Card.Link>
+                          <Link to={{
+                            pathname: '/project/newbid',
+                            state: {
+                              id: project.id,
+                              }
+                          }}>Make a bid</Link>
+                        </Card.Link>
+                      </Card.Body>
+                    </Card>
+                </div>
+              )
+            })
+          }
+        </CardGroup>
+      </div>
     )
   }
 }

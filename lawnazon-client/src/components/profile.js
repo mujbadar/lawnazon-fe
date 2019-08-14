@@ -1,9 +1,13 @@
 import React, { Component } from 'react'
 
 class Profile extends Component {
+  state = {
+  }
   render() {
     return(
-      <h1>This is the user Profile page</h1>
+      <div>
+        <h1>This is the user Profile page</h1>
+      </div>
     )
   }
 }
